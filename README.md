@@ -2,6 +2,8 @@
 
 A React + TypeScript web app to browse GoDaddy's public GitHub repositories, view details, and explore languages used.
 
+https://godaddyrepos.pages.dev/
+
 ## Features
 
 - **Repository List:** Displays all GoDaddy public repos with key stats.

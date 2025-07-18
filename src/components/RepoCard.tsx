@@ -21,7 +21,7 @@ const RepoCard: React.FC<RepoCardProps> = ({ repo }) => {
 
   return (
     <li
-      className="bg-gray-200/10 m-2 p-4 content-center roundedc transition delay-75 duration-150 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500/60 repo-card"
+      className="bg-gray-200/10 m-2 p-5 content-center roundedc transition delay-75 duration-150 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500/60 repo-card"
       onClick={() => navigate("/repodetails", { state: { repo } })}
     >
       <div className="flex justify-between ">
