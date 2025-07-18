@@ -1,69 +1,71 @@
-# React + TypeScript + Vite
+# GoDaddy Repo Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + TypeScript web app to browse GoDaddy's public GitHub repositories, view details, and explore languages used.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Repository List:** Displays all GoDaddy public repos with key stats.
+- **Repo Details:** Click a repo to view its description, issues, watchers, forks, and languages.
+- **Responsive Design:** Works well on desktop and mobile.
+- **Caching:** Uses localStorage to cache repo data and minimize API calls.
+- **Error Handling:** Shows clear messages for API errors and rate limits.
+- **Navigation:** Seamless navigation between repo list and details.
+- **Accessibility:** Keyboard and screen reader friendly.
+- **Testing:** Playwright tests for UI, navigation, error handling, and loading states.
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React
+- TypeScript
+- Tailwind CSS
+- React Router
+- Playwright (for testing)
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### Prerequisites
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js (v18+ recommended)
+- npm or yarn
+
+### Installation
+
+- Clone the github repo locally and run install.
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Running the App
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+Visit [http://localhost:5173](http://localhost:5173) in your browser.
+
+### Running Tests
+
+```bash
+npx playwright test
+```
+
+## Project Structure
+
+```
+src/
+  components/
+    Navbar.tsx
+    RepoList.tsx
+    RepoCard.tsx
+  RepoDetails.tsx
+  App.tsx
+tests/
+  example.spec.ts
+```
+
+## Future Implementations
+
+- Add more tests for error handling and loading states.
+- Add filters such as owners, branches, created dates, etc.
+- Possibly use Modals to dislay Repo Details.

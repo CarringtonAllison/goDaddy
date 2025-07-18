@@ -79,7 +79,7 @@ const RepoList = () => {
   return (
     <>
       {error && <div className="text-red-500 text-center my-4">{error}</div>}
-      <ul className="flex flex-col m-5 justify-self-center max-h-[75vh] max-w-3/4 overflow-y-auto overflow-x-hidden rounded-3xl">
+      <ul className="flex flex-col m-5 justify-self-center max-h-[75vh] max-w-3/4 overflow-y-auto overflow-x-hidden rounded-3xl repo-list">
         {repos.map((repo) => (
           <RepoCard key={repo.id} repo={repo} />
         ))}

@@ -1,4 +1,4 @@
-import Navbar from "./components/Navbar";
+import Navbar from "./Navbar";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const RepoDetails = () => {
@@ -10,13 +10,18 @@ const RepoDetails = () => {
     <>
       <Navbar />
       {!repo && <div>No repository data available.</div>}
-      <div className="justify-self-center p-8 bg-gray-200/10 m-2 rounded">
-        <h1 className="text-3xl mb-4">Title: {repo.name}</h1>
-        <p> Description: {repo.description || "No description"}</p>
-        <p>Open Issues: {repo.open_issues}</p>
-        <p>Watchers: {repo.watchers}</p>
-        <p>Forks: {repo.forks}</p>
-        <p>
+      <div className="justify-self-center p-8 bg-gray-200/10 m-2 max-w-[90vw] rounded">
+        <p className="mb-4 repo-name text-2xl break-words">
+          Title: {repo.name}
+        </p>
+        <p className="repo-description">
+          {" "}
+          Description: {repo.description || "No description"}
+        </p>
+        <p className="repo-open-issues">Open Issues: {repo.open_issues}</p>
+        <p className="repo-watchers">Watchers: {repo.watchers}</p>
+        <p className="repo-forks">Forks: {repo.forks}</p>
+        <p className="repo-languages">
           Languages:{" "}
           {repo.languages
             ? Object.keys(repo.languages).join(", ")
@@ -33,7 +38,7 @@ const RepoDetails = () => {
       </div>
       <div className="justify-self-center">
         <button
-          className="mt-4 p-2 bg-blue-500 text-white rounded"
+          className="mt-4 p-2 bg-blue-500 text-white rounded back-button"
           onClick={() => navigate("/")}
         >
           Back
