@@ -18,27 +18,6 @@ const RepoList = () => {
   const [repos, setRepos] = useState<Repo[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const getRepos = async () => {
-    try {
-      const response = await fetch("https://api.github.com/orgs/godaddy/repos");
-      if (!response.ok) {
-        if (response.status === 403) {
-          setError("GitHub API rate limit exceeded. Please try again later.");
-          return [];
-        } else {
-          setError("Failed to fetch repositories.");
-          return [];
-        }
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      setError("An error occurred while fetching repositories.");
-      console.error("Fetch error:", error);
-    }
-    return [];
-  };
-
   const getLanguages = async (repo: Repo) => {
     const response = await fetch(repo.languages_url);
     if (!response.ok) {
@@ -48,31 +27,59 @@ const RepoList = () => {
     return data;
   };
 
-  useEffect(() => {
-    getRepos()
-      .then((data) => {
-        setRepos(data);
-        data.forEach(async (repo: Repo) => {
+  const loadRepos = async () => {
+    const cachedRepos = localStorage.getItem("godaddy_repos");
+    if (cachedRepos) {
+      const parsedRepos = JSON.parse(cachedRepos);
+      const allHaveLanguages = parsedRepos.every(
+        (repo: Repo) => repo.languages
+      );
+      if (allHaveLanguages) {
+        setRepos(parsedRepos);
+        return;
+      }
+    }
+
+    try {
+      const response = await fetch("https://api.github.com/orgs/godaddy/repos");
+      if (!response.ok) {
+        if (response.status === 403) {
+          setError("GitHub API rate limit exceeded. Please try again later.");
+          return;
+        } else {
+          setError("Failed to fetch repositories.");
+          return;
+        }
+      }
+      const data = await response.json();
+
+      const reposWithLangs = await Promise.all(
+        data.map(async (repo: Repo) => {
           try {
             const languages = await getLanguages(repo);
-            setRepos((prevRepos) =>
-              prevRepos.map((r) => (r.id === repo.id ? { ...r, languages } : r))
-            );
-          } catch (error) {
-            console.error(
-              `Error fetching languages for repo ${repo.name}:`,
-              error
-            );
+            return { ...repo, languages };
+          } catch {
+            return { ...repo, languages: {} };
           }
-        });
-      })
-      .catch((error) => console.error("Error fetching repos:", error));
+        })
+      );
+
+      setRepos(reposWithLangs);
+      localStorage.setItem("godaddy_repos", JSON.stringify(reposWithLangs));
+    } catch (error) {
+      setError("An error occurred while fetching repositories.");
+      console.error("Fetch error:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadRepos();
   }, []);
 
   return (
     <>
       {error && <div className="text-red-500 text-center my-4">{error}</div>}
-      <ul className="flex flex-col m-5 justify-self-center max-h-screen max-w-3/4 overflow-y-auto">
+      <ul className="flex flex-col m-5 justify-self-center max-h-[75vh] max-w-3/4 overflow-y-auto overflow-x-hidden rounded-3xl">
         {repos.map((repo) => (
           <RepoCard key={repo.id} repo={repo} />
         ))}
